@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Hazardous Substance | AI-Powered Safety for Hazardous Substance Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+:root{
+  /* AI Hazardous Substance Brand Colours: Deep Navy, Safety Orange, Steel Blue */
+  --blue:#0A3260;
+  --blue-light:#1252A0;
+  --blue-dim:#082A52;
+  --blue-dark:#051D3C;
+  --blue-deeper:#030F1E;
+
+  --accent:#FF6B00;
+  --accent-light:#FFD6B0;
+  --accent-dim:#FF8C35;
+
+  --nav-bg:#0A3260;
+  --footer-bg:#051D3C;
+
+  --bg-white:#F5F8FF;
+  --bg-light:#EBF1FB;
+  --bg-section:#D6E4F7;
+  --bg-card:#F5F8FF;
+
+  --card-border:rgba(10,50,96,0.18);
+  --card-border-strong:rgba(10,50,96,0.38);
+
+  --text-dark:#020D1F;
+  --text-mid:#0F2D5A;
+  --text-muted:#3A5A8C;
+  --text-light:#6A8AB0;
+  --white:#FFFFFF;
+
+  --nav-h:72px;
+  --max-w:1200px;
+  --font:'Plus Jakarta Sans',sans-serif;
+  --display:'Sora',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --ease:cubic-bezier(0.4,0,0.2,1);
+  --ease-out:cubic-bezier(0,0,0.2,1);
+}
+
+body{font-family:var(--font);color:var(--text-dark);background:var(--bg-white);overflow-x:hidden;}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg-light);}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:2px;}
+
+img{display:block;max-width:100%;}
+
+/* ─── NAVBAR ─────────────────────────────────────────── */
+.navbar{
+  position:fixed;top:0;left:0;width:100%;height:var(--nav-h);
+  background:var(--nav-bg);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,0.15);
+  z-index:1000;display:flex;align-items:center;
+  padding:0 clamp(16px,5vw,60px);
+  justify-content:space-between;
+  transition:border-color 0.3s;
+  box-shadow:0 2px 24px rgba(5,29,60,0.5);
+}
+.nav-logo{
+  font-family:var(--display);font-size:16px;font-weight:800;
+  color:var(--white);letter-spacing:-0.3px;
+  display:flex;align-items:center;gap:12px;
+  cursor:pointer;text-decoration:none;flex-shrink:0;
+}
+.nav-logo-icon{
+  width:40px;height:40px;
+  background:linear-gradient(135deg,var(--accent),#FF8C35);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  box-shadow:0 4px 14px rgba(255,107,0,0.4);
+  border:1px solid rgba(255,255,255,0.2);
+}
+.nav-logo-icon svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+.nav-logo-text{display:flex;flex-direction:column;line-height:1;}
+.nav-logo-text span{font-size:10px;font-family:var(--mono);font-weight:500;color:rgba(255,255,255,0.65);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
+
+.nav-links{display:flex;align-items:center;gap:4px;list-style:none;}
+.nav-links li button{
+  background:none;border:none;
+  color:rgba(255,255,255,0.85);
+  font-size:11px;font-weight:600;
+  padding:8px 14px;border-radius:7px;
+  transition:all 0.22s var(--ease);
+  cursor:pointer;font-family:var(--mono);
+  letter-spacing:0.8px;text-transform:uppercase;
+  position:relative;white-space:nowrap;
+}
+.nav-links li button:hover{color:#fff;background:rgba(255,255,255,0.12);}
+.nav-links li button.active{color:#fff;background:rgba(255,107,0,0.25);}
+.nav-links li button.active::after{
+  content:'';position:absolute;bottom:5px;left:50%;
+  transform:translateX(-50%);width:14px;height:2px;
+  background:var(--accent);border-radius:2px;
+}
+
+.nav-right{display:flex;align-items:center;gap:10px;}
+.btn-demo-nav{
+  background:linear-gradient(135deg,var(--accent),#FF8C35);
+  color:#fff;border:none;padding:9px 20px;border-radius:8px;
+  font-size:11px;font-weight:700;cursor:pointer;
+  transition:all 0.22s;font-family:var(--mono);
+  letter-spacing:0.8px;text-transform:uppercase;white-space:nowrap;
+  box-shadow:0 4px 14px rgba(255,107,0,0.4);
+}
+.btn-demo-nav:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,107,0,0.55);}
+
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;flex-shrink:0;}
+.hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;transition:0.3s;display:block;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+.mobile-nav{
+  display:none;position:fixed;top:var(--nav-h);left:0;width:100%;
+  background:var(--blue-dark);backdrop-filter:blur(20px);
+  padding:12px 20px 20px;flex-direction:column;gap:2px;
+  z-index:999;border-bottom:1px solid rgba(255,255,255,0.1);
+  animation:slideDown 0.25s var(--ease-out);
+}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+.mobile-nav.open{display:flex;}
+.mobile-nav button{
+  background:none;border:none;color:rgba(255,255,255,0.8);
+  font-size:13px;font-weight:600;padding:13px 12px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  cursor:pointer;font-family:var(--mono);text-align:left;
+  text-transform:uppercase;letter-spacing:1px;
+  transition:color 0.2s,background 0.2s;border-radius:6px;
+}
+.mobile-nav button:hover{color:#fff;background:rgba(255,255,255,0.1);}
+.mobile-nav .mob-cta{
+  margin-top:8px;background:linear-gradient(135deg,var(--accent),#FF8C35);
+  color:#fff;border:none;padding:13px;
+  border-radius:8px;font-weight:700;font-size:12px;
+  letter-spacing:1px;text-transform:uppercase;cursor:pointer;
+  font-family:var(--mono);
+}
+
+/* ─── PAGE SYSTEM ─────────────────────────────────────── */
+.page{display:none;min-height:100vh;padding-top:var(--nav-h);}
+.page.active{display:block;animation:pgIn 0.35s var(--ease);}
+@keyframes pgIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* ─── SECTION COMMONS ─────────────────────────────────── */
+.label-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--blue-dim);margin-bottom:14px;
+}
+.label-tag::before{content:'';width:20px;height:1px;background:var(--accent);}
+.label-tag-white{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,0.8);margin-bottom:14px;
+}
+.label-tag-white::before{content:'';width:20px;height:1px;background:var(--accent);}
+
+.section-h2{
+  font-family:var(--display);font-size:clamp(28px,3.5vw,52px);
+  font-weight:800;line-height:1.1;letter-spacing:-0.8px;
+  margin-bottom:10px;
+}
+.section-h2.blue-txt{color:var(--blue-dark);}
+.section-h2.dark{color:var(--text-dark);}
+.section-h2.white{color:var(--white);}
+
+.section-divider{width:56px;height:3px;margin:16px 0 28px;border-radius:2px;}
+.divider-blue{background:linear-gradient(90deg,var(--accent),transparent);}
+.divider-white{background:linear-gradient(90deg,rgba(255,107,0,0.9),transparent);}
+.divider-center{margin:16px auto 28px;}
+
+.para-dark{color:var(--text-mid);line-height:1.85;font-size:17px;}
+.para-light{color:rgba(255,255,255,0.85);line-height:1.85;font-size:17px;}
+
+.container{max-width:var(--max-w);margin:0 auto;padding:0 clamp(16px,4vw,60px);}
+
+/* ─── BUTTONS ─────────────────────────────────────────── */
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--accent),#FF8C35);
+  color:var(--white);padding:13px 28px;border-radius:8px;
+  text-decoration:none;font-weight:700;font-size:12px;
+  letter-spacing:0.8px;text-transform:uppercase;
+  transition:all 0.25s;font-family:var(--mono);border:none;cursor:pointer;
+  box-shadow:0 4px 16px rgba(255,107,0,0.4);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,107,0,0.6);}
+
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1.5px solid var(--blue);color:var(--blue-dark);
+  padding:12px 28px;border-radius:8px;text-decoration:none;
+  font-weight:700;font-size:12px;letter-spacing:0.8px;
+  text-transform:uppercase;transition:all 0.25s;
+  font-family:var(--mono);background:none;cursor:pointer;
+}
+.btn-secondary:hover{background:rgba(10,50,96,0.08);border-color:var(--blue-dim);}
+
+.btn-white{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--white);color:var(--blue-dark);
+  padding:12px 28px;border-radius:8px;
+  font-weight:700;font-size:12px;letter-spacing:0.8px;
+  text-transform:uppercase;transition:all 0.25s;
+  font-family:var(--mono);border:none;cursor:pointer;
+  box-shadow:0 4px 16px rgba(0,0,0,0.12);
+}
+.btn-white:hover{transform:translateY(-2px);background:var(--accent-light);box-shadow:0 8px 28px rgba(0,0,0,0.2);}
+
+/* ─── STATUS BADGES ─────────────────────────────── */
+.risk-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 10px;border-radius:20px;
+  font-size:10px;font-weight:700;font-family:var(--mono);letter-spacing:0.5px;
+}
+.risk-blue{background:rgba(10,50,96,0.1);color:var(--blue-dim);border:1px solid rgba(10,50,96,0.28);}
+.risk-light{background:rgba(255,107,0,0.1);color:var(--blue-dark);border:1px solid rgba(255,107,0,0.3);}
+.risk-green{background:rgba(16,185,129,0.1);color:#059669;border:1px solid rgba(16,185,129,0.25);}
+.risk-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0;}
+
+/* ─── HERO ─────────────────────────────────────────────── */
+.hero{
+  background:linear-gradient(140deg,#EBF1FB 0%,#D6E4F7 40%,#B8D0F0 100%);
+  padding:clamp(60px,10vw,100px) 0 clamp(50px,8vw,80px);
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-80px;right:-80px;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,107,0,0.1) 0%,transparent 70%);
+}
+.hero-inner{
+  max-width:var(--max-w);margin:0 auto;
+  padding:0 clamp(16px,4vw,60px);
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,80px);
+  align-items:center;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(10,50,96,0.12);border:1px solid rgba(10,50,96,0.3);
+  border-radius:30px;padding:6px 16px;
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  color:var(--blue-dim);letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:22px;
+}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+h1{
+  font-family:var(--display);font-size:clamp(34px,5vw,64px);
+  font-weight:800;line-height:1.06;letter-spacing:-1.5px;color:var(--text-dark);
+  margin-bottom:6px;
+}
+h1 .blue{color:var(--blue);}
+h1 .accent{color:var(--accent);}
+.hero-rule{width:48px;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-dim));border-radius:2px;margin:20px 0;}
+.hero-body{font-size:17px;color:var(--text-mid);line-height:1.8;margin-bottom:28px;max-width:540px;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+
+.hero-mini-stats{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
+.hero-mini-card{
+  background:rgba(255,255,255,0.85);
+  border:1px solid rgba(10,50,96,0.2);
+  border-radius:12px;padding:14px 18px;min-width:140px;
+  backdrop-filter:blur(8px);
+}
+.hero-mini-card strong{
+  display:block;font-family:var(--display);
+  font-size:22px;font-weight:800;color:var(--blue-dark);
+}
+.hero-mini-card span{font-size:11px;color:var(--text-muted);font-family:var(--mono);}
+
+/* DASHBOARD CARD */
+.score-card{
+  background:#fff;border-radius:18px;
+  border:1px solid rgba(10,50,96,0.18);
+  padding:24px;box-shadow:0 8px 40px rgba(10,50,96,0.12);
+}
+.score-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;}
+.score-card-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;}
+.dashboard-title{font-family:var(--display);font-size:17px;font-weight:700;color:var(--text-dark);}
+.live-dot-wrap{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:700;color:var(--accent);letter-spacing:1.5px;}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 1.5s infinite;}
+.score-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(10,50,96,0.08);}
+.score-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;font-weight:700;flex-shrink:0;}
+.score-icon.blue-bg{background:rgba(10,50,96,0.12);color:var(--blue-dim);}
+.score-icon.light-bg{background:rgba(255,107,0,0.12);color:var(--accent);}
+.score-icon.green-bg{background:rgba(16,185,129,0.1);color:#059669;}
+.score-lbl{flex:1;font-size:12px;color:var(--text-muted);}
+.score-val{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text-dark);}
+.score-big{display:flex;align-items:center;gap:16px;margin-top:18px;padding:16px;background:linear-gradient(135deg,rgba(10,50,96,0.08),rgba(255,107,0,0.08));border-radius:12px;border:1px solid rgba(10,50,96,0.15);}
+.score-big-num{font-family:var(--display);font-size:48px;font-weight:800;color:var(--accent);line-height:1;}
+.score-big-info .label{font-size:13px;font-weight:700;color:var(--text-dark);}
+.score-big-info .sub{font-size:11px;color:var(--text-muted);margin-top:3px;font-family:var(--mono);}
+
+/* ─── STATS STRIP ─────────────────────────────────────── */
+.section-blue{
+  background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue-deeper) 100%);
+  padding:clamp(60px,8vw,96px) 0;
+}
+.stats-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:48px;
+}
+.stat-card{
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);
+  border-radius:16px;padding:clamp(20px,3vw,30px);
+  text-align:center;transition:transform 0.25s,border-color 0.25s;
+}
+.stat-card:hover{transform:translateY(-4px);border-color:rgba(255,107,0,0.5);}
+.stat-num{font-family:var(--display);font-size:clamp(32px,4vw,48px);font-weight:800;color:#fff;margin-bottom:10px;}
+.stat-num.accent{color:var(--accent);}
+.stat-lbl{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.6;}
+
+/* ─── PLATFORM SECTION ─────────────────────────────────── */
+.platform-section{background:var(--bg-white);padding:clamp(60px,8vw,96px) 0;}
+.platform-sub{max-width:760px;margin-bottom:44px;color:var(--text-mid);}
+.platform-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+.platform-card{
+  background:#fff;border:1px solid rgba(10,50,96,0.15);
+  border-radius:18px;overflow:hidden;
+  transition:border-color 0.3s,box-shadow 0.3s,transform 0.3s;
+  box-shadow:0 2px 12px rgba(10,50,96,0.06);
+}
+.platform-card:hover{border-color:rgba(255,107,0,0.4);box-shadow:0 12px 40px rgba(10,50,96,0.12);transform:translateY(-3px);}
+.platform-img-wrap{width:100%;height:180px;overflow:hidden;background:linear-gradient(135deg,var(--bg-light),var(--bg-section));}
+.platform-img-wrap img{width:100%;height:100%;object-fit:cover;}
+.platform-card .inner{padding:22px;}
+.element-badge{
+  display:inline-block;background:rgba(10,50,96,0.1);
+  color:var(--blue-dim);border-radius:6px;
+  padding:3px 10px;font-family:var(--mono);font-size:9px;
+  font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:12px;border:1px solid rgba(10,50,96,0.18);
+}
+.platform-card h3{font-family:var(--display);font-size:17px;font-weight:700;color:var(--text-dark);margin-bottom:10px;line-height:1.3;}
+.platform-card p{font-size:13px;color:var(--text-muted);line-height:1.75;}
+.more-text{display:none;font-size:13px;color:var(--text-muted);line-height:1.75;margin-top:10px;padding-top:10px;border-top:1px solid rgba(10,50,96,0.1);}
+.platform-card.open .more-text{display:block;}
+.expand-btn{
+  margin-top:16px;background:none;border:1px solid rgba(10,50,96,0.28);
+  color:var(--blue-dim);padding:7px 18px;border-radius:7px;
+  font-size:11px;font-weight:700;cursor:pointer;font-family:var(--mono);
+  letter-spacing:0.8px;text-transform:uppercase;transition:all 0.2s;
+}
+.expand-btn:hover{background:rgba(255,107,0,0.08);border-color:var(--accent);}
+
+/* ─── WHY SECTION ─────────────────────────────────────── */
+.why-section{background:var(--bg-light);padding:clamp(60px,8vw,96px) 0;}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px;}
+.why-card{
+  background:#fff;border:1px solid rgba(10,50,96,0.15);
+  border-radius:16px;padding:clamp(20px,3vw,30px);
+  transition:border-color 0.25s,box-shadow 0.25s;
+}
+.why-card:hover{border-color:rgba(255,107,0,0.3);box-shadow:0 8px 28px rgba(10,50,96,0.1);}
+.why-icon{
+  width:48px;height:48px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(10,50,96,0.12),rgba(255,107,0,0.1));
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;font-size:20px;color:var(--accent);
+  border:1px solid rgba(255,107,0,0.2);
+}
+.why-card h4{font-family:var(--display);font-size:16px;font-weight:700;color:var(--text-dark);margin-bottom:10px;}
+.why-card p{font-size:13px;color:var(--text-muted);line-height:1.75;}
+
+/* ─── SECTION LIGHT / ALT ─────────────────────────────── */
+.section-light{background:var(--bg-white);padding:clamp(60px,8vw,96px) 0;}
+.section-alt{background:var(--bg-light);padding:clamp(60px,8vw,96px) 0;}
+
+/* ─── MARKET CHARTS ─────────────────────────────────────── */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:44px;}
+.chart-card{
+  background:#fff;border:1px solid rgba(10,50,96,0.15);
+  border-radius:18px;padding:24px;
+  box-shadow:0 4px 16px rgba(10,50,96,0.06);
+}
+.chart-card h4{font-family:var(--display);font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:4px;}
+.chart-card p{font-size:12px;color:var(--text-muted);margin-bottom:20px;font-family:var(--mono);}
+.chart-wrap{height:260px;position:relative;}
+
+/* ─── ABOUT PAGE ─────────────────────────────────────────── */
+.about-hero{
+  background:linear-gradient(140deg,#D6E4F7 0%,#B8D0F0 60%,#8CAEDC 100%);
+  padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);
+  position:relative;overflow:hidden;
+}
+.about-hero::after{
+  content:'';position:absolute;bottom:-60px;left:-60px;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,107,0,0.12) 0%,transparent 70%);
+}
+.about-hero .container{position:relative;z-index:1;}
+.founders-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:44px;}
+.founder-card{
+  background:#fff;border:1px solid rgba(10,50,96,0.15);
+  border-radius:18px;padding:clamp(20px,3vw,36px);
+  box-shadow:0 4px 20px rgba(10,50,96,0.08);
+}
+.founder-img{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--accent));display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:24px;font-weight:800;color:#fff;margin-bottom:16px;}
+.founder-card h3{font-family:var(--display);font-size:20px;font-weight:700;color:var(--text-dark);margin-bottom:4px;}
+.founder-card .role{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue-dim);margin-bottom:14px;}
+.founder-card p{font-size:13px;color:var(--text-muted);line-height:1.8;}
+.founder-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+.f-badge{background:rgba(10,50,96,0.08);border:1px solid rgba(10,50,96,0.18);border-radius:20px;padding:4px 12px;font-family:var(--mono);font-size:10px;color:var(--blue-dim);letter-spacing:0.5px;}
+
+/* ─── FAQ ─────────────────────────────────────────────── */
+.faq-wrap{display:flex;flex-direction:column;gap:12px;margin-top:32px;}
+.faq-item{background:#fff;border:1px solid rgba(10,50,96,0.15);border-radius:14px;overflow:hidden;}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;cursor:pointer;gap:16px;}
+.faq-q h4{font-family:var(--display);font-size:15px;font-weight:600;color:var(--text-dark);}
+.faq-icon{font-size:20px;font-weight:300;color:var(--accent);flex-shrink:0;transition:transform 0.3s;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-body{display:none;padding:0 22px 18px;font-size:14px;color:var(--text-muted);line-height:1.8;border-top:1px solid rgba(10,50,96,0.08);}
+.faq-item.open .faq-body{display:block;}
+
+/* ─── PRICING ─────────────────────────────────────────── */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:44px;}
+.price-card{
+  background:#fff;border:1px solid rgba(10,50,96,0.15);
+  border-radius:18px;padding:clamp(22px,3vw,36px);
+  position:relative;transition:border-color 0.25s,box-shadow 0.25s,transform 0.25s;
+  box-shadow:0 4px 16px rgba(10,50,96,0.06);
+}
+.price-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(10,50,96,0.14);}
+.price-card.featured{
+  border:2px solid var(--accent);
+  box-shadow:0 8px 40px rgba(255,107,0,0.2);
+  transform:scale(1.03);
+}
+.price-card.featured:hover{transform:scale(1.03) translateY(-4px);}
+.featured-label{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(135deg,var(--accent),#FF8C35);
+  color:#fff;padding:4px 18px;border-radius:20px;
+  font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  white-space:nowrap;
+}
+.price-tier{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+.price-title{font-family:var(--display);font-size:20px;font-weight:700;color:var(--text-dark);margin-bottom:12px;}
+.price-amount{font-family:var(--display);font-size:clamp(34px,4vw,48px);font-weight:800;color:var(--blue-dark);line-height:1;}
+.price-amount span{font-size:16px;font-weight:500;color:var(--text-muted);}
+.price-desc{font-size:13px;color:var(--text-muted);margin:12px 0 20px;line-height:1.6;}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
+.price-features li{font-size:13px;color:var(--text-mid);display:flex;align-items:flex-start;gap:8px;}
+.price-features li::before{content:'✓';color:var(--accent);font-weight:700;flex-shrink:0;margin-top:1px;}
+
+/* ─── PROCESS ─────────────────────────────────────────── */
+.process-step{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(30px,5vw,72px);align-items:center;
+  margin-bottom:clamp(56px,8vw,96px);
+}
+.process-step:last-child{margin-bottom:0;}
+.step-num{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+.step-h3{font-family:var(--display);font-size:clamp(22px,2.5vw,32px);font-weight:800;color:var(--text-dark);margin-bottom:16px;line-height:1.2;}
+.step-p{color:var(--text-muted);font-size:15px;line-height:1.8;margin-bottom:18px;}
+.step-img{width:100%;aspect-ratio:16/10;border-radius:16px;border:1px solid rgba(10,50,96,0.15);overflow:hidden;box-shadow:0 8px 32px rgba(10,50,96,0.1);}
+.step-img img{width:100%;height:100%;object-fit:cover;}
+
+/* ─── CONTACT ─────────────────────────────────────────── */
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:44px;}
+.contact-form{background:#fff;border-radius:18px;padding:clamp(24px,4vw,40px);border:1px solid rgba(10,50,96,0.15);box-shadow:0 4px 16px rgba(10,50,96,0.06);}
+.contact-form h3{font-family:var(--display);font-size:24px;font-weight:700;color:var(--text-dark);margin-bottom:8px;}
+.contact-form p{font-size:14px;color:var(--text-muted);margin-bottom:28px;line-height:1.6;}
+.form-group{margin-bottom:20px;}
+.form-group label{display:block;font-size:12px;font-weight:700;color:var(--text-mid);margin-bottom:8px;font-family:var(--mono);letter-spacing:0.5px;text-transform:uppercase;}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;padding:12px 16px;border:1.5px solid rgba(10,50,96,0.18);
+  border-radius:10px;font-size:14px;font-family:var(--font);
+  color:var(--text-dark);background:#fff;
+  transition:border-color 0.2s,box-shadow 0.2s;outline:none;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,107,0,0.1);}
+.form-group textarea{min-height:120px;resize:vertical;}
+.contact-info{display:flex;flex-direction:column;gap:0;}
+.contact-info h3{font-family:var(--display);font-size:22px;font-weight:700;color:var(--text-dark);margin-bottom:16px;}
+.contact-info p{font-size:15px;color:var(--text-muted);line-height:1.7;margin-bottom:28px;}
+.contact-detail{display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-bottom:1px solid rgba(10,50,96,0.1);}
+.contact-detail .icon{width:44px;height:44px;background:rgba(255,107,0,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0;font-size:18px;}
+.contact-detail .text strong{display:block;font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:2px;}
+.contact-detail .text span{font-size:13px;color:var(--text-muted);}
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer{background:var(--footer-bg);padding:clamp(48px,6vw,80px) 0 0;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px;}
+.footer-brand{font-family:var(--display);font-size:22px;font-weight:800;color:#fff;margin-bottom:14px;}
+.footer-desc{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.8;margin-bottom:20px;}
+.footer-badges{display:flex;flex-wrap:wrap;gap:8px;}
+.footer-badge{background:rgba(255,107,0,0.15);border:1px solid rgba(255,107,0,0.3);border-radius:20px;padding:4px 12px;font-family:var(--mono);font-size:10px;color:rgba(255,255,255,0.85);letter-spacing:0.5px;}
+.footer-col-title{font-family:var(--mono);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:16px;}
+.footer-col{display:flex;flex-direction:column;gap:10px;}
+.footer-col a{font-size:13px;color:rgba(255,255,255,0.65);cursor:pointer;transition:color 0.2s;}
+.footer-col a:hover{color:var(--accent);}
+.footer-bottom-bar{border-top:1px solid rgba(255,255,255,0.1);padding:20px 0;display:flex;align-items:center;justify-content:space-between;}
+.footer-bottom-bar p{font-size:12px;color:rgba(255,255,255,0.45);font-family:var(--mono);}
+.footer-bottom-bar p span{color:rgba(255,255,255,0.7);}
+.footer-bottom-links{display:flex;gap:20px;}
+.footer-bottom-links a{font-size:12px;color:rgba(255,255,255,0.5);cursor:pointer;font-family:var(--mono);transition:color 0.2s;}
+.footer-bottom-links a:hover{color:rgba(255,255,255,0.85);}
+
+/* ─── COMPARISON TABLE ───────────────────────── */
+.comp-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:40px;border-radius:16px;border:1px solid rgba(10,50,96,0.15);box-shadow:0 4px 16px rgba(10,50,96,0.06);}
+.comp-table{width:100%;border-collapse:collapse;background:#fff;}
+.comp-table th{background:linear-gradient(135deg,var(--blue-dark),var(--blue-deeper));color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:16px 18px;text-align:left;}
+.comp-table th:first-child{border-radius:16px 0 0 0;}
+.comp-table th:last-child{border-radius:0 16px 0 0;}
+.comp-table td{padding:14px 18px;font-size:13px;color:var(--text-mid);border-bottom:1px solid rgba(10,50,96,0.08);}
+.comp-table tr:last-child td{border-bottom:none;}
+.comp-table tr:hover td{background:rgba(10,50,96,0.02);}
+.comp-table td:first-child{font-weight:600;color:var(--text-dark);}
+.comp-table .yes{color:#059669;font-weight:700;}
+.comp-table .no{color:#94a3b8;font-weight:500;}
+.comp-table .highlight-col{background:rgba(255,107,0,0.06);}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media(max-width:900px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .btn-demo-nav{display:none;}
+
+  .hero-inner{grid-template-columns:1fr;gap:40px;}
+  .hero-inner > div:last-child{display:none;}
+  .hero .hero-mini-stats{display:none;}
+
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .platform-grid{grid-template-columns:1fr;}
+  .why-grid{grid-template-columns:1fr 1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .price-card.featured{transform:scale(1);}
+  .process-step{grid-template-columns:1fr;gap:28px;}
+  .step-img{aspect-ratio:16/9;}
+  .contact-wrap{grid-template-columns:1fr;}
+  .charts-grid{grid-template-columns:1fr;}
+  .founders-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .footer-bottom-bar{flex-direction:column;align-items:flex-start;gap:10px;}
+  .footer-bottom-links{flex-wrap:wrap;gap:12px;}
+  [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr !important;}
+  .platform-grid[style*="grid-template-columns:repeat(2,1fr)"]{grid-template-columns:1fr !important;}
+  .addons-grid{grid-template-columns:1fr !important;}
+}
+@media(max-width:600px){
+  .stats-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  .why-grid{grid-template-columns:1fr;}
+  .hero-mini-stats{flex-direction:column;}
+  .hero-mini-card{min-width:unset;width:100%;}
+  .btn-primary,.btn-secondary,.btn-white{width:100%;justify-content:center;}
+  .footer-bottom-links{flex-direction:column;gap:8px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════════ -->
+<nav class="navbar">
+  <a class="nav-logo" onclick="showPage('home')">
+  <div class="nav-logo-text">
+    AI Hazardous Substance
+    <span>Intelligent Safety Platform</span>
+  </div>
+</a>
+
+  <ul class="nav-links">
+    <li><button id="nav-home" class="active" onclick="showPage('home')">Home</button></li>
+    <li><button id="nav-about" onclick="showPage('about')">About</button></li>
+    <li><button id="nav-platform" onclick="showPage('platform')">Platform</button></li>
+    <li><button id="nav-market" onclick="showPage('market')">Market</button></li>
+    <li><button id="nav-process" onclick="showPage('process')">Process</button></li>
+    <li><button id="nav-faq" onclick="showPage('faq')">FAQ</button></li>
+    <li><button id="nav-pricing" onclick="showPage('pricing')">Pricing</button></li>
+    <li><button id="nav-contact" onclick="showPage('contact')">Contact</button></li>
+  </ul>
+
+  <div class="nav-right">
+    <button class="btn-demo-nav" onclick="showPage('contact')">Request Demo</button>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+  <button onclick="showPage('home');closeMobile()">Home</button>
+  <button onclick="showPage('about');closeMobile()">About</button>
+  <button onclick="showPage('platform');closeMobile()">Platform</button>
+  <button onclick="showPage('market');closeMobile()">Market</button>
+  <button onclick="showPage('process');closeMobile()">Process</button>
+  <button onclick="showPage('faq');closeMobile()">FAQ</button>
+  <button onclick="showPage('pricing');closeMobile()">Pricing</button>
+  <button onclick="showPage('contact');closeMobile()">Contact</button>
+  <button class="mob-cta" onclick="showPage('contact');closeMobile()">Request Demo →</button>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE : HOME
+═══════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          UK's First AI-Powered Hazardous Substance Management System
+        </div>
+        <h1>
+          Safer Workplaces.<br>
+          <span class="accent">Smarter</span> Compliance.
+          <span class="blue"> Stronger Future.</span>
+        </h1>
+        <div class="hero-rule"></div>
+        <p class="hero-body">
+          AI Hazardous Substance is the UK's first AI-powered, location-aware safety platform that maps hazardous materials in real time. Unlike static spreadsheets or expensive human consultants, our platform converts physical warehouse layouts into digital, compliant storage maps instantly  securely, ethically, and offline-capable.
+        </p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="showPage('contact')">Book a Platform Demo</button>
+          <button class="btn-secondary" onclick="showPage('platform')">Explore Platform</button>
+        </div>
+       
+      </div>
+      <!-- DASHBOARD -->
+      <div>
+        <div class="score-card">
+          <div class="score-card-top">
+            <div>
+              <div class="score-card-label">AI Hazardous Substance · Live Engine</div>
+              <h3 class="dashboard-title">Hazard Intelligence Dashboard</h3>
+            </div>
+            <div class="live-dot-wrap"><span class="live-dot"></span>LIVE</div>
+          </div>
+          <div class="score-row">
+            <div class="score-icon blue-bg">RO</div>
+            <span class="score-lbl">Risk Overview Score</span>
+            <span class="score-val">82% Moderate ↑</span>
+          </div>
+          <div class="score-row">
+            <div class="score-icon light-bg">HA</div>
+            <span class="score-lbl">Active Hazard Alerts</span>
+            <span class="score-val">128 Active Alerts</span>
+          </div>
+          <div class="score-row">
+            <div class="score-icon blue-bg">CI</div>
+            <span class="score-lbl">Chemical Inventory</span>
+            <span class="score-val">352 Total Substances</span>
+          </div>
+          <div class="score-row">
+            <div class="score-icon green-bg">CS</div>
+            <span class="score-lbl">Compliance Status</span>
+            <span class="score-val">98% Compliant ✓</span>
+          </div>
+          <div class="score-big">
+            <div class="score-big-num">76<span style="font-size:24px;">%</span></div>
+            <div class="score-big-info">
+              <div class="label">Leak Detection Probability</div>
+              <div class="sub">Storage Tank #7 · Predictive Alert · AI Governed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <section class="section-blue">
+    <div class="container">
+      <div class="label-tag-white">The UK Industrial Safety Crisis</div>
+      <h2 class="section-h2 white">UK SMEs Are Losing Millions to<br>Hazardous Substance Blind Spots.</h2>
+      <div class="section-divider divider-white"></div>
+      <p class="para-light" style="max-width:760px;">
+        The UK's 300,000+ SME warehouses and manufacturing units face a systemic safety crisis: soaring HSE compliance costs, rising lithium-ion fire risks, and manual paper-based systems that create dangerous blind spots. Health and safety fines averaged over £32,000 per case in 2024. AI Hazardous Substance is the live spatial intelligence infrastructure that turns fragmented chemical storage data into a coordinated safety layer  protecting workers, reducing costs, and ensuring 100% COSHH compliance.
+      </p>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num accent">£32K+</div>
+          <div class="stat-lbl">Average HSE fine per health & safety case in 2024  avoidable with real-time AI compliance governance</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">300K+</div>
+          <div class="stat-lbl">UK SME warehouses lacking real-time hazardous substance monitoring  massive untapped demand</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num accent">92%</div>
+          <div class="stat-lbl">Detection accuracy achieved in industrial conditions  validated across logistics, NHS, and manufacturing environments</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">£240M</div>
+          <div class="stat-lbl">Total Addressable Market across UK logistics, NHS, manufacturing, and education sectors annually</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORM PREVIEW -->
+  <section class="platform-section">
+    <div class="container">
+      <div class="label-tag">Core Intelligence Modules</div>
+      <h2 class="section-h2 dark">Six Modules. One Complete AI Safety Platform.</h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark platform-sub">
+        AI Hazardous Substance combines Real-Time Spatial Mapping, Unified Compliance Graph, GAN Risk Intelligence, Automated Evidence Vault, Emergency Response Hub, and Edge AI Processing into one unified SaaS platform  no-code, real-time, UK COSHH and RIDDOR compliant.
+      </p>
+
+      <div class="platform-grid">
+        <!-- CARD 1 -->
+        <div class="platform-card">
+          <div class="platform-img-wrap">
+            <img src="ai1.jpg" alt="Spatial Compliance Mapping">
+          </div>
+          <div class="inner">
+            <div class="element-badge">Module 01</div>
+            <h3>Real-Time Spatial Compliance Mapping</h3>
+            <p>
+              AI-driven spatial mapping instantly converts physical warehouse layouts into digital, compliant storage maps with sub-200ms latency.
+            </p>
+            <div class="more-text">
+              The Storage-Layout Compliance Mapping Engine uses hybrid CNN and Transformer architectures to detect chemical containers, bunding integrity, and spatial separation violations in real time. Unlike reactive safety tools, it interprets live human-material interactions and flags risks instantly  covering oxidizers near flammables, acids near cyanides, and all COSHH incompatibilities automatically.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="platform-card">
+          <div class="platform-img-wrap">
+            <img src="ai2.jpg" alt="Unified Compliance Graph">
+          </div>
+          <div class="inner">
+            <div class="element-badge">Module 02</div>
+            <h3>Unified Compliance Graph (UCG)</h3>
+            <p>
+              A proprietary graph framework mapping thousands of chemical interactions against UK HSE mandates  always governed by latest COSHH and REACH standards.
+            </p>
+            <div class="more-text">
+              The UCG uses deep learning to map relationships between substance types, storage locations, and regulatory control measures. It automatically cross-references site-specific layouts against complex COSHH/HSE mandates  ensuring correct ventilation, PPE, or spill kits are always linked to the correct storage location without requiring manual expertise.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="platform-card">
+          <div class="platform-img-wrap">
+            <img src="ai3.jpg" alt="GAN Risk Intelligence">
+          </div>
+          <div class="inner">
+            <div class="element-badge">Module 03</div>
+            <h3>Generative Risk Learning Engine</h3>
+            <p>
+              GANs simulate rare hazard scenarios  chemical leaks, lithium-ion thermal runaway  creating adaptive intelligence that prevents accidents before they occur.
+            </p>
+            <div class="more-text">
+              Our Generative Adversarial Networks continuously generate synthetic datasets of rare industrial risk events, addressing the long-standing data scarcity problem in safety-critical AI development. This proprietary data moat enables the AI to "practice" for high-impact events that cannot be safely replicated in real-world environments.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY SECTION -->
+  <section class="why-section">
+    <div class="container">
+      <div class="label-tag">Why AI Hazardous Substance</div>
+      <h2 class="section-h2 dark">Built for the Real World.<br>Not Just a Digital Checklist.</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-map-marked-alt"></i></div>
+          <h4>Live Spatial Intelligence</h4>
+          <p>Moves beyond passive spreadsheets to a live spatial detection layer that connects chemical storage, bunding status, and compliance in a real-time surveillance loop  acting rather than just recording.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+          <h4>Automated Evidence Vault</h4>
+          <p>Every physical inspection is converted into a time-stamped, geofenced, and immutable digital log  transforming compliance from an administrative burden into automated, legally defensible infrastructure.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+          <h4>Offline Edge AI Processing</h4>
+          <p>Designed for steel-clad warehouse environments with poor connectivity. The platform operates offline when needed, processing data locally to ensure data sovereignty and continuous safety monitoring.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-pound-sign"></i></div>
+          <h4>90% Cost Reduction</h4>
+          <p>Replaces expensive HSE consultancy (£500–£1,500/day) with a scalable, always-on AI safety system. SMEs achieve full COSHH compliance at a fraction of traditional costs.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+          <h4>UK COSHH & RIDDOR Aligned</h4>
+          <p>Fully aligned with the Health and Safety at Work Act 1974, COSHH, RIDDOR, and the HSE's 10-year "health-first" strategy  the only AI platform built specifically for UK industrial mandates.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-hospital"></i></div>
+          <h4>Cross-Sector Applicability</h4>
+          <p>Deployable across logistics, NHS healthcare maintenance, manufacturing, food production, and automotive workshops  each with sector-specific chemical interaction modules and compliance templates.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end page home -->
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE : ABOUT
+═══════════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <section class="about-hero">
+    <div class="container">
+      <div class="label-tag">About Us</div>
+      <h2 class="section-h2 dark">Built from Front-Line HSE Experience.<br><span style="color:var(--blue-dark);">Designed for the Intelligent Safety Era.</span></h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:680px;margin-bottom:40px;">AI Hazardous Substance is a UK-based SaaS venture founded by Muhammad Burhan  combining 5+ years of front-line HSE expertise with an MSc in Project Management from the University of Lincoln to solve the most pressing challenge facing UK industrial safety today: the "safety-management gap" that costs SMEs billions in fines, accidents, and compliance failures.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('contact')">Get in Touch</button>
+        <button class="btn-secondary" onclick="showPage('platform')">Explore Platform</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision & Mission -->
+  <section class="section-light">
+    <div class="container">
+      <div class="label-tag">Vision & Mission</div>
+      <h2 class="section-h2 dark">To Be the Global Standard for<br>AI-Powered Industrial Safety.</h2>
+      <div class="section-divider divider-blue"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:32px;">
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-eye"></i></div>
+          <h4>Our Vision</h4>
+          <p>To redefine industrial safety by making every warehouse and manufacturing environment "Safe-by-Design" through intelligent, real-time spatial governance that protects every worker  creating a future where chemical storage accidents are prevented before they happen.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-bullseye"></i></div>
+          <h4>Our Mission</h4>
+          <p>To pioneer a secure, scalable, and intelligent hazardous substance management platform that empowers UK SMEs to automate compliance  transforming reactive safety protocols into everyday operational excellence without expensive human consultancy.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Values -->
+  <section class="section-alt">
+    <div class="container">
+      <div class="label-tag">Core Values</div>
+      <h2 class="section-h2 dark">What Drives Everything We Build</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-lightbulb"></i></div>
+          <h4>Innovation</h4>
+          <p>Continuous refinement of spatial AI models and the Unified Compliance Graph to stay ahead of evolving UK safety laws, novel materials like lithium-ion batteries, and emerging industrial hazards.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-crosshairs"></i></div>
+          <h4>Accuracy</h4>
+          <p>A commitment to 92%+ detection accuracy in industrial environments, eliminating the spatial blind spots that lead to chemical storage accidents, fires, and costly HSE interventions.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-lock"></i></div>
+          <h4>Data Sovereignty</h4>
+          <p>Empowering industrial operators to own their site layout data through Edge AI processing  ensuring corporate secrets and chemical inventories are never exposed to external cloud risks.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-tachometer-alt"></i></div>
+          <h4>Efficiency</h4>
+          <p>Making complex COSHH compliance manageable through automated spatial intelligence  replacing time-consuming manual audits with always-on, sub-200ms real-time detection.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-hands-helping"></i></div>
+          <h4>Worker Protection</h4>
+          <p>Empowering front-line warehouse staff to handle hazardous materials safely without constant expert supervision  ensuring every worker returns home safely every day.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-leaf"></i></div>
+          <h4>Environmental Safety</h4>
+          <p>Reducing chemical spills and environmental contamination by 20–30% per institution through proactive spatial mapping, contributing to safer industrial futures for the UK and beyond.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Founder -->
+  <section class="section-light">
+    <div class="container">
+      <div class="label-tag">Founder</div>
+      <h2 class="section-h2 dark">The Person Behind<br>AI Hazardous Substance</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="founders-grid">
+        <div class="founder-card">
+          <div class="founder-img">MB</div>
+          <h3>Muhammad Burhan</h3>
+          <div class="role">Founder & CEO · Managing Director</div>
+          <p>Muhammad brings a unique combination of academic excellence and front-line operational expertise to the industrial safety sector. With an MSc in Project Management from the University of Lincoln and a BS in Environmental Science, he has dedicated over 5 years to mastering Health, Safety, and Environment (HSE) protocols across the UK and Pakistan.<br><br>His hands-on experience in managing site security and compliance for major distribution centers (such as Currys DC) directly informs the system's design, ensuring it solves real warehouse friction and high-risk storage challenges. At AI Hazardous Substance, he leads development of the Unified Compliance Graph and the spatial intelligence engine, converting front-line HSE knowledge into actionable machine code.</p>
+          <div class="founder-badges">
+            <span class="f-badge">MSc Project Management · Univ. of Lincoln</span>
+            <span class="f-badge">BS Environmental Science</span>
+            <span class="f-badge">5+ Years HSE Experience</span>
+            <span class="f-badge">Currys DC · Site Safety</span>
+            <span class="f-badge">UK & Pakistan HSE Operations</span>
+          </div>
+        </div>
+        <div class="founder-card" style="display:flex;flex-direction:column;justify-content:space-between;">
+          <div>
+            <h4 style="font-family:var(--display);font-size:18px;font-weight:700;color:var(--text-dark);margin-bottom:16px;">Deep Domain Synergy</h4>
+            <p style="font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:20px;">While traditional industrial tech startups are often led by generalist software developers, Muhammad unifies the worlds of Environmental Science and Management. This background equips him with a hands-on understanding of how to link technical spatial metrics (like chemical incompatibilities) to commercial outcomes (like insurance savings and HSE fine avoidance).</p>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <div class="contact-detail" style="border:none;padding:12px 0;">
+                <div class="icon"><i class="fas fa-star"></i></div>
+                <div class="text"><strong>Evidence-Based Strategy</strong><span>Direct exposure to warehouse safety failures through managing compliance for major UK distribution centres  informing every platform design decision.</span></div>
+              </div>
+              <div class="contact-detail" style="border:none;padding:12px 0;">
+                <div class="icon"><i class="fas fa-brain"></i></div>
+                <div class="text"><strong>Operational Precision</strong><span>Practical understanding of industrial chemical stressors and spatial incompatibilities through 5+ years of HSE Officer and Assistant Manager roles.</span></div>
+              </div>
+              <div class="contact-detail" style="border:none;padding:12px 0;">
+                <div class="icon"><i class="fas fa-rocket"></i></div>
+                <div class="text"><strong>Strategic Innovation Focus</strong><span>Converts front-line safety intuition into structured AI data, ensuring the platform addresses real UK warehouse operational realities  not theoretical scenarios.</span></div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-primary" style="margin-top:24px;" onclick="showPage('contact')">Connect with Muhammad →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- end page about -->
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE : PLATFORM
+═══════════════════════════════════════════════ -->
+<div class="page" id="page-platform">
+  <section style="background:linear-gradient(140deg,#EBF1FB 0%,#D6E4F7 60%,#B8D0F0 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container">
+      <div class="label-tag">Full Platform</div>
+      <h2 class="section-h2 dark">Six Intelligence Modules.<br><span style="color:var(--accent);">One Complete AI Safety Command Centre.</span></h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:680px;margin-bottom:40px;">Every feature is built specifically for the high-pressure UK industrial safety environment  not retrofitted from generic SaaS tools. Our proprietary Unified Compliance Graph and spatial AI engine translate complex chemical storage behaviours into actionable compliance KPIs that operators actually need.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('contact')">Request Demo →</button>
+        <button class="btn-secondary" onclick="showPage('pricing')">View Pricing</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="container">
+      <div class="platform-grid" style="grid-template-columns:repeat(2,1fr);gap:28px;">
+
+        <!-- CARD 1 -->
+        <div class="platform-card">
+          <div class="platform-img-wrap" style="height:220px;">
+            <img src="ai4.jpg" alt="Spatial Compliance Mapping" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div class="inner">
+            <div class="element-badge">Module 01 · Spatial Mapping</div>
+            <h3>Real-Time Storage-Layout Compliance Mapping</h3>
+            <p>
+              Computer vision with CNN and Transformer architectures detects chemical containers, bunding integrity, and spatial separation violations with sub-200ms latency  in real time.
+            </p>
+            <div class="more-text">
+              The Storage-Layout Compliance Mapping Engine interprets hand shapes for label detection, container types, and shelf spacing within milliseconds. It automatically flags incompatible materials  oxidizers near flammables, acids near cyanides  ensuring that no dangerous storage configuration goes undetected across logistics hubs, NHS maintenance units, and manufacturing SMEs.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="platform-card">
+          <div class="platform-img-wrap" style="height:220px;">
+            <img src="ai5.jpg" alt="Unified Compliance Graph" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div class="inner">
+            <div class="element-badge">Module 02 · Compliance Graph</div>
+            <h3>Unified Compliance Graph & Predictive Interaction Logic</h3>
+            <p>
+              A deep-learning graph framework mapping thousands of chemical interactions against UK COSHH and HSE mandates  ensuring every storage decision is legally compliant.
+            </p>
+            <div class="more-text">
+              The UCG maps relationships between substance types, storage locations, and regulatory control measures. It provides context-aware guidance  ensuring correct ventilation, PPE, and spill kits are always linked to the correct storage location. The system automatically cross-references site layouts against COSHH, REACH, and RIDDOR requirements without manual expertise.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="platform-card">
+          <div class="platform-img-wrap" style="height:220px;">
+            <img src="ai6.jpg" alt="GAN Risk Engine" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div class="inner">
+            <div class="element-badge">Module 03 · GAN Risk Engine</div>
+            <h3>Generative Compliance Intelligence (GANs & Synthetic Data)</h3>
+            <p>
+              Generative Adversarial Networks simulate rare industrial risk events  chemical leaks, thermal runaway  creating synthetic datasets that train the AI for high-impact scenarios.
+            </p>
+            <div class="more-text">
+              This proprietary GAN-driven augmentation layer addresses the long-standing data scarcity problem in safety-critical AI. The synthetic dataset forms a defendable competitive advantage  enabling the AI to practice for events that cannot be safely replicated in real-world environments. The platform continuously refines its detection accuracy as new material risks emerge.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="platform-card">
+          <div class="platform-img-wrap" style="height:220px;">
+            <img src="ai7.jpg" alt="Evidence Vault" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div class="inner">
+            <div class="element-badge">Module 04 · Evidence Vault</div>
+            <h3>Automated Audit-Ready "Evidence Vault"</h3>
+            <p>
+              Every physical inspection is converted into a time-stamped, geofenced, and immutable digital log  ensuring 100% audit readiness for HSE inspections and RIDDOR compliance.
+            </p>
+            <div class="more-text">
+              The Evidence Vault generates tamper-proof digital records of every inspection, maintenance activity, and training session. Every action is time-stamped and geofenced, creating a robust audit trail that satisfies HSE requirements and insurance mandates  without the need for manual paperwork. Businesses avoid the £32,000+ average HSE fine through continuous automated compliance documentation.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="platform-card">
+          <div class="platform-img-wrap" style="height:220px;">
+            <img src="ai8.jpg" alt="Emergency Response Hub" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div class="inner">
+            <div class="element-badge">Module 05 · Emergency Response</div>
+            <h3>Emergency Response Hub & Mobile Safety Dashboard</h3>
+            <p>
+              Immediate mobile-first access to site-specific neutralization protocols and digital storage maps for first responders during chemical spills or fires.
+            </p>
+            <div class="more-text">
+              The Emergency Response Hub ensures that critical safety information is never "locked in a paper file" during an incident. First responders gain instant access to chemical storage maps, neutralization protocols, and emergency contacts  significantly reducing response times and preventing incident escalation. The dual-purpose mobile app supports both routine staff inspections and emergency response dashboards.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="platform-card">
+          <div class="platform-img-wrap" style="height:220px;">
+            <img src="ai9.jpg" alt="Edge AI Processing" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div class="inner">
+            <div class="element-badge">Module 06 · Edge AI</div>
+            <h3>Offline Edge AI Processing & Data Sovereignty</h3>
+            <p>
+              Full spatial-to-compliance inference performed locally without cloud processing  ensuring safety governance continues in steel-clad warehouses with zero connectivity.
+            </p>
+            <div class="more-text">
+              Model distillation has reduced Edge AI power requirements by 35%, extending utility for battery-powered inspection devices. NVIDIA Jetson Orin hardware enables reliable performance in harsh, high-interference warehouse environments. Site layouts and inventory data remain encrypted and processed within the device  ensuring the highest levels of corporate and national data protection under UK GDPR.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Competitor Comparison -->
+      <div style="margin-top:60px;">
+        <div class="label-tag">Competitor Analysis</div>
+        <h2 class="section-h2 dark" style="margin-bottom:8px;">How AI Hazardous Substance Compares</h2>
+        <div class="section-divider divider-blue"></div>
+        <p class="para-dark" style="max-width:700px;margin-bottom:0;">AI Hazardous Substance is the only platform combining live spatial AI, real-time COSHH compliance, and UK-specific hazard interaction intelligence in a single SME-optimised SaaS.</p>
+        <div class="comp-table-wrap">
+          <table class="comp-table">
+            <thead>
+              <tr>
+                <th>Feature / Capability</th>
+                <th>EcoOnline (UK)</th>
+                <th>SafetyCulture (Global)</th>
+                <th>Traditional Consultancy</th>
+                <th>Manual Systems</th>
+                <th style="background:var(--accent);">AI Hazardous Substance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Real-Time Spatial Mapping</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes highlight-col">✓ CNN + Spatial AI</td></tr>
+              <tr><td>COSHH Interaction Engine</td><td class="no">Passive SDS lookup</td><td class="no">None</td><td class="no">Expert opinion</td><td class="no">Manual check</td><td class="yes highlight-col">✓ UCG  Real-time</td></tr>
+              <tr><td>Sub-200ms Latency Detection</td><td class="no">Manual entry</td><td class="no">Periodic checks</td><td class="no">Periodic audits</td><td class="no">Reactive</td><td class="yes highlight-col">✓ Active intervention</td></tr>
+              <tr><td>GAN Synthetic Risk Training</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes highlight-col">✓ Proprietary GANs</td></tr>
+              <tr><td>Offline Edge AI Capability</td><td class="no">Cloud-dependent</td><td class="no">Limited</td><td class="no">N/A</td><td class="no">N/A</td><td class="yes highlight-col">✓ NVIDIA Jetson Orin</td></tr>
+              <tr><td>Automated Evidence Vault</td><td class="no">Manual documentation</td><td class="no">Manual checklists</td><td class="no">Paper-based</td><td class="no">Paper folders</td><td class="yes highlight-col">✓ Immutable digital logs</td></tr>
+              <tr><td>UK COSHH + RIDDOR Aligned</td><td class="no">General EHS</td><td class="no">General safety</td><td class="no">UK HSE mandates</td><td class="no">None</td><td class="yes highlight-col">✓ Full UK compliance</td></tr>
+              <tr><td>Cost Structure</td><td class="no">High enterprise SaaS</td><td class="no">Freemium/SaaS</td><td class="no">£500–£1,500/day</td><td class="no">Time-intensive</td><td class="yes highlight-col">✓ SME-optimised SaaS</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- end page platform -->
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE : MARKET
+═══════════════════════════════════════════════ -->
+<div class="page" id="page-market">
+  <section style="background:linear-gradient(140deg,#EBF1FB 0%,#D6E4F7 50%,#B8D0F0 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container">
+      <div class="label-tag">Market Analysis</div>
+      <h2 class="section-h2 dark">A £240M UK Market Underserved.<br><span style="color:var(--accent);">AI Hazardous Substance is the Solution.</span></h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:680px;margin-bottom:40px;">The UK industrial safety and EHS software market is projected to surpass £1.5 billion by 2028, growing at 7.2% CAGR. Over 300,000 SME warehouses and manufacturing units handle hazardous materials while relying on manual documentation. The HSE's 10-year "health-first" strategy creates an urgent regulatory demand for AI-powered COSHH compliance solutions.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('contact')">Request Demo →</button>
+        <button class="btn-secondary" onclick="showPage('pricing')">View Pricing</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="container">
+      <div class="label-tag">Market Data & Intelligence</div>
+      <h2 class="section-h2 dark">The Numbers Behind the Opportunity</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h4>UK Industrial Safety TAM by Sector (£M Annually)</h4>
+          <p>Total addressable market across UK industrial and institutional sectors</p>
+          <div class="chart-wrap"><canvas id="chartSector"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h4>Key Compliance Pain Points  UK SME Industrial Leaders</h4>
+          <p>Primary challenges driving adoption of AI Hazardous Substance platform</p>
+          <div class="chart-wrap"><canvas id="chartRootCause"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h4>AI Hazardous Substance vs Competitors  Capability Radar</h4>
+          <p>Platform capabilities versus existing market alternatives</p>
+          <div class="chart-wrap"><canvas id="chartRadar"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h4>Global EHS AI Market Growth 2022–2030</h4>
+          <p>Global market growth (USD B) + UK AI industrial safety adoption (%)</p>
+          <div class="chart-wrap"><canvas id="chartGrowth"></canvas></div>
+        </div>
+      </div>
+      <div class="charts-grid" style="grid-template-columns:1fr;margin-top:32px;">
+        <div class="chart-card">
+          <h4>Platform Feature Comparison  AI Hazardous Substance vs Market Average</h4>
+          <p>Capability scores across key industrial safety intelligence dimensions (out of 100)</p>
+          <div class="chart-wrap"><canvas id="chartPerf"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Revenue Projections -->
+  <section class="section-blue">
+    <div class="container">
+      <div class="label-tag-white">Financial Projections</div>
+      <h2 class="section-h2 white">5-Year Revenue Trajectory</h2>
+      <div class="section-divider divider-white"></div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num accent">£74K</div>
+          <div class="stat-lbl">Year 1 Revenue · 51 active clients · UK pilots · SaaS + Hardware Kit fees · 22.9% net margin</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num accent">£315K</div>
+          <div class="stat-lbl">Year 2 Revenue · 84 active users · Full UK launch · £93K net profit · API integrations scaling</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num accent">£1.04M</div>
+          <div class="stat-lbl">Year 3 Revenue · 308 active users · £193K net profit · EU REACH expansion · NHS Trusts scaling</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num accent">£3.1M</div>
+          <div class="stat-lbl">Year 5 Revenue · 683 active users · £793K net profit · 98.5% gross margin · Global expansion</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- end page market -->
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE: PROCESS
+═══════════════════════════════════════════════ -->
+<div class="page" id="page-process">
+  <section style="background:linear-gradient(140deg,#EBF1FB 0%,#D6E4F7 50%,#B8D0F0 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container">
+      <div class="label-tag">How It Works</div>
+      <h2 class="section-h2 dark">From Paper-Based Compliance<br>to <span style="color:var(--accent);">AI-Driven Safety Intelligence</span></h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:680px;margin-bottom:40px;">AI Hazardous Substance operates as a closed-loop spatial safety intelligence lifecycle  capturing, diagnosing, intervening, and continuously evolving your facility's hazard compliance, so every chemical storage decision is grounded in real AI intelligence, not guesswork or reactive firefighting.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('contact')">Request a Demo →</button>
+        <button class="btn-secondary" onclick="showPage('platform')">Explore Modules</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-light" style="padding-top:clamp(60px,8vw,96px);">
+    <div class="container">
+
+      <div class="label-tag">The 6-Phase AI Safety Intelligence Lifecycle</div>
+      <h2 class="section-h2 dark">A Complete Spatial Safety Loop  Not Just a Checklist</h2>
+      <div class="section-divider divider-blue"></div>
+
+      <!-- Phase 1 -->
+      <div class="process-step">
+        <div>
+          <div class="step-num">Phase 01 · Assess</div>
+          <h3 class="step-h3">Establish Your Site Safety Baseline</h3>
+          <p class="step-p">AI Hazardous Substance ingests your site data  chemical inventories, storage layouts, bunding configurations, station capacities  to build a comprehensive "Site Safety Ontology." The system runs initial spatial diagnostics to establish baseline COSHH Compliance and Hazard Detection scores.</p>
+          <p class="step-p">The Assessment phase surfaces the hidden cost of unmanaged chemical storage  giving you a precise, data-driven view of your compliance gaps before any risk materialises.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <span class="risk-badge risk-blue"><span class="risk-dot"></span>Automated Site Setup</span>
+            <span class="risk-badge risk-light"><span class="risk-dot"></span>Baseline Safety Report</span>
+            <span class="risk-badge risk-green"><span class="risk-dot"></span>Zero Code Required</span>
+          </div>
+        </div>
+        <div class="step-img">
+          <img src="https://images.pexels.com/photos/1267338/pexels-photo-1267338.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Assess Site Safety" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">
+        </div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="process-step">
+        <div class="step-img">
+          <img src="https://images.pexels.com/photos/3862379/pexels-photo-3862379.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Monitor Chemical Storage" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">
+        </div>
+        <div>
+          <div class="step-num">Phase 02 · Monitor</div>
+          <h3 class="step-h3">Real-Time Spatial & Thermal Monitoring</h3>
+          <p class="step-p">The Spatial Monitoring Engine ingests live signals from industrial cameras and edge processors  tracking chemical label positions, spatial separation distances, thermal anomalies, and bunding integrity on a continuous basis. Automated alerts flag at-risk storage configurations the moment they emerge.</p>
+          <p class="step-p">Think of it as a 24/7 HSE Officer watching every storage zone  objective, continuous, and immediately actionable.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <span class="risk-badge risk-blue"><span class="risk-dot"></span>Live Hazard Dashboard</span>
+            <span class="risk-badge risk-light"><span class="risk-dot"></span>Automated Safety Alerts</span>
+            <span class="risk-badge risk-blue"><span class="risk-dot"></span>Thermal Anomaly Detection</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="process-step">
+        <div>
+          <div class="step-num">Phase 03 · Detect</div>
+          <h3 class="step-h3">Spatial Incompatibility Detection  Catch Hazards Before They Cost You</h3>
+          <p class="step-p">The Unified Compliance Graph engine cross-checks detected chemical positions against COSHH interaction rules. Oxidizer near flammable? Acid near cyanide? Insufficient bunding? The UCG catches them all and automatically generates a structured "Compliance Alert Report" with recommended corrective actions.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <span class="risk-badge risk-green"><span class="risk-dot"></span>Automated Incompatibility Detection</span>
+            <span class="risk-badge risk-blue"><span class="risk-dot"></span>COSHH Compliance Reports</span>
+          </div>
+        </div>
+        <div class="step-img">
+          <img src="https://images.pexels.com/photos/4481942/pexels-photo-4481942.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Detect Hazardous Incompatibilities" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">
+        </div>
+      </div>
+
+      <!-- Phase 4 -->
+      <div class="process-step">
+        <div class="step-img">
+          <img src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Automated Safety Intervention" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">
+        </div>
+        <div>
+          <div class="step-num">Phase 04 · Intervene</div>
+          <h3 class="step-h3">Automated Safety Alerts & Evidence Generation</h3>
+          <p class="step-p">When a spatial violation or thermal anomaly is detected, the system automatically alerts staff via mobile, generates the Evidence Vault log, and recommends corrective storage protocols. The Human-in-the-Loop verification ensures precision for complex or ambiguous scenarios  connecting to certified HSE consultants for quick validation when needed.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <span class="risk-badge risk-blue"><span class="risk-dot"></span>Instant Mobile Alerts</span>
+            <span class="risk-badge risk-light"><span class="risk-dot"></span>Evidence Vault Logging</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 5 -->
+      <div class="process-step">
+        <div>
+          <div class="step-num">Phase 05 · Learn</div>
+          <h3 class="step-h3">GAN-Powered Risk Learning  Train for the Rare Events</h3>
+          <p class="step-p">The Generative Risk Learning Engine enables anonymised synthetic hazard benchmarks from UK industrial sites to continuously improve predictive models. Rare events like lithium-ion thermal runaway or specific chemical leaks are simulated by GANs  building a data moat that no competitor can easily replicate.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <span class="risk-badge risk-blue"><span class="risk-dot"></span>GAN Synthetic Training</span>
+            <span class="risk-badge risk-green"><span class="risk-dot"></span>Continuously Improving AI</span>
+          </div>
+        </div>
+        <div class="step-img">
+          <img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600" alt="GAN Risk Learning Engine" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">
+        </div>
+      </div>
+
+      <!-- Phase 6 -->
+      <div class="process-step">
+        <div class="step-img">
+          <img src="https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=600" alt="HSE Compliance Reporting" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">
+        </div>
+        <div>
+          <div class="step-num">Phase 06 · Report</div>
+          <h3 class="step-h3">Audit-Ready Reporting  From Operational Data to Legal Evidence</h3>
+          <p class="step-p">Every insight is delivered as a structured, audit-ready COSHH Compliance Report  not raw data exports. Safety managers receive Spatial Risk Scores, Chemical Inventory Health metrics, Evidence Vault summaries, and ranked corrective action items ready for immediate deployment during HSE inspections.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <span class="risk-badge risk-blue"><span class="risk-dot"></span>Compliance & Risk Scores</span>
+            <span class="risk-badge risk-light"><span class="risk-dot"></span>Audit-Ready Evidence Vault</span>
+            <span class="risk-badge risk-green"><span class="risk-dot"></span>Prioritised Action Items</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div><!-- end page process -->
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE : FAQ
+═══════════════════════════════════════════════ -->
+<div class="page" id="page-faq">
+  <section style="background:linear-gradient(140deg,#EBF1FB 0%,#D6E4F7 60%,#B8D0F0 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container">
+      <div class="label-tag">FAQ</div>
+      <h2 class="section-h2 dark">Frequently Asked Questions</h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:600px;">Everything you need to know about AI Hazardous Substance and what it means for your facility's COSHH compliance and worker safety in the age of industrial AI.</p>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="container" style="max-width:840px;">
+      <div class="faq-wrap">
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>What is AI Hazardous Substance and why does my facility need it?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-body">AI Hazardous Substance is an AI-based spatial safety platform that solves the systemic compliance crisis facing UK industrial SMEs  specifically the "safety-management gap" where hazardous chemical storage, thermal risks, and regulatory evidence generation are disconnected from real-time operational realities. Unlike standard digital checklists or periodic HSE consultancy, AI Hazardous Substance establishes a "Live Spatial Safety Layer" that automatically monitors chemical storage compatibility, generates immutable compliance evidence, and alerts staff to hazards in real time. Operational testing has confirmed 92% detection accuracy and sub-200ms latency in industrial conditions.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>How is this different from traditional HSE consultancy or EcoOnline/SafetyCulture?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-body">Traditional HSE consultancy is prohibitively expensive (£500–£1,500 per day) and provides only periodic "snapshots" of compliance. Competitors like EcoOnline focus on database-driven SDS management, while SafetyCulture provides general digital checklists  neither offers real-time spatial intelligence. AI Hazardous Substance operates as a live spatial monitoring layer using computer vision and the Unified Compliance Graph to actively detect incompatible chemical storage, thermal anomalies, and spatial violations in real time  24 hours a day, 7 days a week, at a fraction of the cost.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>Does the system work offline in steel-clad warehouses with poor connectivity?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-body">Yes. A core design principle of AI Hazardous Substance is offline-first Edge AI processing. Using NVIDIA Jetson Orin hardware, the system performs full spatial-to-compliance inference locally without cloud connectivity. This ensures continuous safety monitoring in steel-clad logistics hubs, remote manufacturing units, and basement clinical maintenance zones. Site layouts and chemical inventory data remain encrypted and processed on-device  providing both operational continuity and complete data sovereignty.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>What UK regulations does the platform comply with?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-body">AI Hazardous Substance is architecturally aligned with UK COSHH (Control of Substances Hazardous to Health) Regulations, RIDDOR (Reporting of Injuries, Diseases and Dangerous Occurrences Regulations), the Health and Safety at Work Act 1974, UK GDPR, NHS DTAC (Digital Technology Assessment Criteria) for healthcare deployments, UKCA/CE certification standards, ISO 45001 risk management, and ISO/IEC 27001 cybersecurity. The platform also aligns with the HSE's 10-year "health-first" enforcement strategy  making it the most comprehensively UK-regulated AI safety platform in the sector.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>What sectors and facility types does AI Hazardous Substance serve?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-body">AI Hazardous Substance serves UK SME warehouses, logistics and distribution hubs, NHS maintenance trusts and clinical facilities, food production units, automotive workshops, light manufacturing plants, and university research laboratories. The platform features sector-specific modules  the Medical Maintenance Module for clinical chemicals and bio-hazards, the Lithium-Ion Logistics Module for bulk battery storage and thermal runaway prevention, and the Food Production Module for cleaning agent compliance. Each module includes tailored chemical interaction graphs for that sector's unique hazards.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>What is the "Evidence Vault" and how does it protect my business during HSE audits?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-body">The Evidence Vault is an automated, tamper-proof digital record system that converts every physical inspection, chemical storage change, and safety training session into a time-stamped, geofenced, and immutable compliance log. During an HSE audit or RIDDOR incident investigation, businesses can instantly produce a complete, legally defensible audit trail without manual paperwork scrambling. Given that HSE health and safety fines averaged over £32,000 per case in 2024, the Evidence Vault pays for itself through fine prevention alone  while also reducing insurance premiums for facilities with documented compliance histories.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>How do I get started with AI Hazardous Substance?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-body">Getting started is straightforward  no complex code integration required. After selecting your plan (from £199/month for the Basic Tier), you complete a Site Safety Setup session where you input your chemical inventory and storage configurations. Edge AI sensor kits (AI-enabled cameras and NVIDIA Jetson processors) are then installed at your facility. Your first Hazard Intelligence Dashboard goes live within 24–48 hours. Our Safety Success team guides you through the onboarding process, and Human-in-the-Loop verification with certified HSE consultants ensures maximum safety precision from day one.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- end page faq -->
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE : PRICING
+═══════════════════════════════════════════════ -->
+<div class="page" id="page-pricing">
+  <section style="background:linear-gradient(140deg,#EBF1FB 0%,#D6E4F7 60%,#B8D0F0 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container" style="text-align:center;">
+      <div class="label-tag" style="justify-content:center;">Pricing</div>
+      <h2 class="section-h2 dark">Simple, Transparent Plans<br>for Every Facility Size</h2>
+      <div class="section-divider divider-blue divider-center"></div>
+      <p class="para-dark" style="max-width:580px;margin:0 auto;">From independent SME warehouses to national NHS trusts  AI Hazardous Substance has a plan designed for your COSHH compliance intelligence needs. Industrial safety automation starting from just £199/month.</p>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="container">
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-tier">Basic Tier</div>
+          <div class="price-title">Basic Plan</div>
+          <div class="price-amount">£199<span>/mo</span></div>
+          <p class="price-desc">For small workshops, local clinics, and independent warehouses needing core real-time spatial mapping and compliance monitoring.</p>
+          <ul class="price-features">
+            <li>Real-time spatial compliance mapping</li>
+            <li>Chemical inventory management</li>
+            <li>Automated SDS tracking</li>
+            <li>Standard COSHH monitoring</li>
+            <li>Mobile safety alerts</li>
+            <li>Monthly Evidence Vault report</li>
+            <li>Standard onboarding support</li>
+          </ul>
+          <button class="btn-secondary" onclick="showPage('contact')">Get Started</button>
+        </div>
+        <div class="price-card featured">
+          <div class="featured-label">Most Popular</div>
+          <div class="price-tier">Professional Tier</div>
+          <div class="price-title">Professional Plan</div>
+          <div class="price-amount">£499<span>/mo</span></div>
+          <p class="price-desc">For mid-size warehouses and manufacturing facilities needing full API access, advanced spatial analytics, and priority compliance support.</p>
+          <ul class="price-features">
+            <li>Full Unified Compliance Graph access</li>
+            <li>API + WMS/ERP integration support</li>
+            <li>Advanced spatial analytics</li>
+            <li>GAN risk intelligence engine</li>
+            <li>Priority compliance support</li>
+            <li>Weekly Evidence Vault reports</li>
+            <li>Emergency Response Hub access</li>
+            <li>Human-in-the-Loop HSE verification</li>
+          </ul>
+          <button class="btn-primary" onclick="showPage('contact')">Start Free Trial</button>
+        </div>
+        <div class="price-card">
+          <div class="price-tier">Enterprise Tier</div>
+          <div class="price-title">Enterprise Plan</div>
+          <div class="price-amount">£1K<span>/mo avg</span></div>
+          <p class="price-desc">For major logistics hubs, national manufacturers, and NHS Trusts needing full system integration, white-label deployment, and 24/7 technical safety support.</p>
+          <ul class="price-features">
+            <li>Full system integration & white-label</li>
+            <li>Site-wide Evidence Vaults</li>
+            <li>24/7 technical safety support</li>
+            <li>Custom sector-specific modules</li>
+            <li>Multi-site deployment support</li>
+            <li>Audit-ready compliance reports</li>
+            <li>API licensing capabilities</li>
+            <li>Dedicated Safety Success Manager</li>
+          </ul>
+          <button class="btn-secondary" onclick="showPage('contact')">Contact Us</button>
+        </div>
+      </div>
+
+      <!-- Add-ons -->
+      <div style="margin-top:60px;">
+        <div class="label-tag">Professional Add-Ons</div>
+        <h3 style="font-family:var(--display);font-size:24px;font-weight:700;color:var(--text-dark);margin-bottom:8px;">Additional Services</h3>
+        <div class="section-divider divider-blue"></div>
+        <div class="addons-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:32px;">
+          <div class="why-card">
+            <div class="why-icon"><i class="fas fa-camera"></i></div>
+            <h4>Hardware Deployment Kit</h4>
+            <p>Pre-configured AI-enabled cameras and edge-AI processors for on-premise spatial tracking. One-time kit price of <strong style="color:var(--blue-dark);">£3,600 (incl. VAT)</strong>  includes edge-mapping software license, HD AI sensors, and 1-year priority hardware maintenance.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon"><i class="fas fa-microscope"></i></div>
+            <h4>Site Safety Audit</h4>
+            <p>Specialised spatial compliance validation and Agentic Logic Onboarding. One-off fee based on site complexity  certified HSE consultants validate AI outputs for maximum compliance precision and audit readiness.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon"><i class="fas fa-flask"></i></div>
+            <h4>Sector-Specific Modules</h4>
+            <p>Medical Maintenance Module: <strong style="color:var(--blue-dark);">£499/yr</strong> · Lithium-Ion Logistics Module: <strong style="color:var(--blue-dark);">£399/yr</strong> · Food Production Module: <strong style="color:var(--blue-dark);">£299/yr</strong>  tailored chemical interaction graphs for specialist industries.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon"><i class="fas fa-globe"></i></div>
+            <h4>International Regulatory Expansion</h4>
+            <p>Platform configuration for EU REACH and US OSHA markets  including international chemical compliance modules and regulatory retraining. <strong style="color:var(--blue-dark);">£10K–£50K per deployment.</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- end page pricing -->
+
+<!-- CONTACT SECTION -->
+<div class="page" id="page-contact">
+
+  <section style="background:linear-gradient(140deg,#EBF1FB 0%,#D6E4F7 60%,#B8D0F0 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container">
+      <div class="label-tag">Contact & Demo</div>
+      <h2 class="section-h2 dark">
+        Request a Demo or<br>
+        <span style="color:var(--accent);">Join Our Pilot Programme</span>
+      </h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:600px;">
+        Our personalised demos show your facility's actual COSHH Compliance Score, Hazard Intelligence Dashboard, and Evidence Vault live  in real time, using your operational context.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="container">
+      <div class="contact-wrap">
+        <!-- CONTACT FORM -->
+        <div class="contact-form">
+          <h3>Book Your Platform Demo</h3>
+          <p>Fill in your details and our Safety Success team will contact you within 24 hours to arrange a personalised demonstration.</p>
+
+          <form action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value="797979a0-0412-4f4d-b20a-a5f835476185">
+            <input type="hidden" name="subject" value="New AI Hazardous Substance Demo Request">
+            <input type="hidden" name="from_name" value="AI Hazardous Substance Website">
+
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" name="name" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+              <label>Email Address *</label>
+              <input type="email" name="email" placeholder="your@company.co.uk" required>
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" name="phone" placeholder="+44 7XXX XXXXXX">
+            </div>
+            <div class="form-group">
+              <label>Company / Facility Name</label>
+              <input type="text" name="company_name" placeholder="Your company or facility name">
+            </div>
+            <div class="form-group">
+              <label>Facility Type</label>
+              <select name="facility_type">
+                <option>SME Warehouse / Logistics Hub</option>
+                <option>Manufacturing / Light Industry</option>
+                <option>NHS Trust / Healthcare Facility</option>
+                <option>Automotive Workshop</option>
+                <option>Food Production Unit</option>
+                <option>University / Research Lab</option>
+                <option>Other Industrial Facility</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>What are you most interested in?</label>
+              <textarea name="message" placeholder="Tell us about your COSHH compliance challenges, current safety systems, or the features you'd like to explore..." required></textarea>
+            </div>
+            <button class="btn-primary" style="width:100%;justify-content:center;" type="submit">
+              Request Safety Demo →
+            </button>
+          </form>
+        </div>
+
+        <!-- CONTACT INFO -->
+        <div class="contact-info">
+          <h3>Why Book a Demo?</h3>
+          <p>Our personalised demos show your facility's actual COSHH compliance baseline, Hazard Intelligence Dashboard, and Evidence Vault scores  using your real operational context, not generic examples. We demonstrate how the Unified Compliance Graph, Spatial Mapping Engine, and GAN Risk Intelligence work together to prevent chemical storage accidents, reduce HSE fines, and protect your front-line workers in real time.</p>
+
+          <div class="contact-detail">
+            <div class="icon"><i class="fas fa-envelope"></i></div>
+            <div class="text">
+              <strong>Email Us</strong>
+              <span>aihazardoussubstanceuk@outlook.com</span>
+            </div>
+          </div>
+          
+          <div class="contact-detail">
+            <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="text">
+              <strong>UK Headquarters</strong>
+              <span>Midlands & London, United Kingdom</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="icon"><i class="fas fa-clock"></i></div>
+            <div class="text">
+              <strong>Response Time</strong>
+              <span>Within 24 hours · Mon–Fri 9am–6pm GMT</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="icon"><i class="fas fa-shield-alt"></i></div>
+            <div class="text">
+              <strong>Data Privacy</strong>
+              <span>UK GDPR · ICO Registered · Edge AI Secured</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">AI Hazardous Substance</div>
+        <p class="footer-desc">The UK's first AI-powered, location-aware hazardous substance management platform  mapping chemical storage, monitoring COSHH compliance, and protecting front-line workers in real time. Intelligent Today. Safe Tomorrow.</p>
+        <div class="footer-badges">
+          <span class="footer-badge">UK GDPR Compliant</span>
+          <span class="footer-badge">ICO Registered</span>
+          <span class="footer-badge">COSHH Aligned</span>
+          <span class="footer-badge">NHS DTAC Ready</span>
+          <span class="footer-badge">ISO 45001</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Platform</div>
+        <div class="footer-col">
+          <a onclick="showPage('platform')">Spatial Compliance Mapping</a>
+          <a onclick="showPage('platform')">Unified Compliance Graph</a>
+          <a onclick="showPage('platform')">GAN Risk Intelligence</a>
+          <a onclick="showPage('platform')">Automated Evidence Vault</a>
+          <a onclick="showPage('platform')">Emergency Response Hub</a>
+          <a onclick="showPage('platform')">Edge AI Processing</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <div class="footer-col">
+          <a onclick="showPage('about')">About AI Hazardous Substance</a>
+          <a onclick="showPage('about')">Muhammad Burhan · Founder & CEO</a>
+          <a onclick="showPage('process')">How It Works</a>
+          <a onclick="showPage('faq')">FAQ</a>
+          <a onclick="showPage('market')">Market Analysis</a>
+          <a onclick="showPage('pricing')">Pricing & Plans</a>
+          <a onclick="showPage('contact')">Request a Demo</a>
+          <a onclick="showPage('contact')">Pilot Programme</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Solutions</div>
+        <div class="footer-col">
+          <a onclick="showPage('platform')">SME Warehouses & Logistics</a>
+          <a onclick="showPage('platform')">NHS & Healthcare</a>
+          <a onclick="showPage('platform')">Manufacturing & Light Industry</a>
+          <a onclick="showPage('platform')">Automotive Workshops</a>
+          <a onclick="showPage('pricing')">Basic · £199/mo</a>
+          <a onclick="showPage('pricing')">Professional · £499/mo</a>
+          <a onclick="showPage('pricing')">Enterprise · £1K/mo avg</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom-bar">
+      <p>© 2026 <span>AI Hazardous Substance</span> · Midlands & London, UK · UK GDPR Compliant · by Muhammad Burhan</p>
+      <div class="footer-bottom-links">
+        <a onclick="showPage('contact')">Privacy Policy</a>
+        <a onclick="showPage('contact')">Terms of Service</a>
+        <a onclick="showPage('contact')">Confidential Business Plan</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ═══════════ JAVASCRIPT ═══════════ -->
+<script>
+/* ─── PAGE NAV ───────────────────────────────── */
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links button').forEach(b=>b.classList.remove('active'));
+  const pg=document.getElementById('page-'+name);
+  if(pg){pg.classList.add('active');}
+  const btn=document.getElementById('nav-'+name);
+  if(btn){btn.classList.add('active');}
+  window.scrollTo({top:0,behavior:'instant'});
+  if(name==='market'&&!window.marketChartsLoaded){initMarketCharts();window.marketChartsLoaded=true;}
+}
+
+function toggleCard(btn){
+  const card=btn.closest('.platform-card');
+  card.classList.toggle('open');
+  btn.innerHTML=card.classList.contains('open')?'Show Less':'Learn More';
+}
+
+function toggleFAQ(el){el.parentElement.classList.toggle('open');}
+
+function closeMobile(){
+  document.getElementById('mobileNav').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+document.getElementById('hamburger').addEventListener('click',function(){
+  this.classList.toggle('open');
+  document.getElementById('mobileNav').classList.toggle('open');
+});
+
+/* ─── CHART THEME ────────────────────────────── */
+const BLU='rgba(10,50,96,1)';
+const BLU2='rgba(10,50,96,0.7)';
+const BLU3='rgba(10,50,96,0.35)';
+const ORG='rgba(255,107,0,0.9)';
+const ORG2='rgba(255,140,53,0.7)';
+const GRID='rgba(10,50,96,0.08)';
+const MUTED='rgba(15,45,90,0.8)';
+
+Chart.defaults.font.family="'IBM Plex Mono', monospace";
+Chart.defaults.font.size=11;
+Chart.defaults.color=MUTED;
+
+/* ─── MARKET CHARTS ──────────────────────────── */
+function initMarketCharts(){
+  // UK Industrial Safety TAM by Sector
+  new Chart(document.getElementById('chartSector').getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:['Logistics & Warehousing','Manufacturing & Light Industry','NHS Healthcare Maintenance','Education & Research Labs'],
+      datasets:[{
+        label:'TAM (£ Millions)',
+        data:[150,60,15,15],
+        backgroundColor:[ORG,BLU2,BLU3,ORG2],
+        borderRadius:6,barPercentage:0.6
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:MUTED}},y:{grid:{color:GRID},ticks:{color:MUTED,callback:v=>'£'+v+'M'}}}}
+  });
+
+  // Pain Points Doughnut
+  new Chart(document.getElementById('chartRootCause').getContext('2d'),{
+    type:'doughnut',
+    data:{
+      labels:['Manual Paper Systems (89%)','High Consultancy Costs (85%)','No Real-Time Detection (96%)','Evidence Generation Failures (78%)','Lithium-Ion Risks Unmanaged (71%)'],
+      datasets:[{
+        data:[89,85,96,78,71],
+        backgroundColor:[ORG,BLU2,BLU3,ORG2,'rgba(255,107,0,0.3)'],
+        borderColor:['rgba(255,107,0,0.9)','rgba(10,50,96,0.7)','rgba(10,50,96,0.4)','rgba(255,140,53,0.8)','rgba(255,107,0,0.5)'],
+        borderWidth:1.5
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:MUTED,boxWidth:10,padding:10,font:{size:10}}}}}
+  });
+
+  // Radar Competitive
+  new Chart(document.getElementById('chartRadar').getContext('2d'),{
+    type:'radar',
+    data:{
+      labels:['Real-Time Spatial AI','COSHH Compliance Engine','GAN Risk Training','Offline Edge AI','Evidence Vault','UK Regulatory Alignment'],
+      datasets:[
+        {label:'AI Hazardous Substance',data:[5,5,5,5,5,5],backgroundColor:'rgba(255,107,0,0.1)',borderColor:ORG,borderWidth:2,pointBackgroundColor:ORG},
+        {label:'EcoOnline (UK)',data:[1,3,1,1,2,3],backgroundColor:'rgba(10,50,96,0.06)',borderColor:BLU2,borderWidth:1.5,pointBackgroundColor:BLU2},
+        {label:'SafetyCulture (Global)',data:[1,2,1,1,2,2],backgroundColor:'rgba(10,50,96,0.04)',borderColor:BLU3,borderWidth:1.5,pointBackgroundColor:BLU3},
+        {label:'Traditional Consultancy',data:[1,3,1,1,1,3],backgroundColor:'rgba(255,140,53,0.05)',borderColor:ORG2,borderWidth:1.5,pointBackgroundColor:ORG2},
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:MUTED,boxWidth:10,padding:14,font:{size:10}}}},scales:{r:{backgroundColor:'rgba(10,50,96,0.01)',grid:{color:GRID},pointLabels:{color:MUTED,font:{size:10}},ticks:{display:false},min:0,max:5}}}
+  });
+
+  // Market Growth
+  new Chart(document.getElementById('chartGrowth').getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:['2022','2023','2024','2025','2026','2027','2028','2030'],
+      datasets:[
+        {label:'Global EHS AI Market (USD B)',data:[1.8,2.2,2.8,3.5,4.5,5.8,7.2,10.5],backgroundColor:BLU2,borderRadius:5,barPercentage:0.55},
+        {type:'line',label:'UK Industrial AI Adoption %',data:[null,3,6,11,20,32,48,68],borderColor:ORG,borderWidth:2,yAxisID:'y2',tension:0.4,pointBackgroundColor:ORG,fill:false}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:MUTED,boxWidth:10,padding:12,font:{size:10}}}},scales:{x:{grid:{color:GRID},ticks:{color:MUTED}},y:{grid:{color:GRID},ticks:{color:MUTED,callback:v=>'$'+v+'B'}},y2:{position:'right',grid:{display:false},ticks:{color:MUTED,callback:v=>v+'%'}}}}
+  });
+
+  // Performance Comparison
+  new Chart(document.getElementById('chartPerf').getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:['Real-Time Spatial Mapping','COSHH Interaction Engine','Offline Edge AI','GAN Risk Synthesis','Evidence Vault Automation','UK Regulatory Compliance'],
+      datasets:[
+        {label:'AI Hazardous Substance',data:[98,97,95,96,98,98],backgroundColor:ORG,borderRadius:5,barPercentage:0.35},
+        {label:'Market Average (Legacy EHS)',data:[5,12,8,2,15,22],backgroundColor:'rgba(10,50,96,0.25)',borderRadius:5,barPercentage:0.35}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:MUTED,boxWidth:10,padding:14,font:{size:10}}}},scales:{x:{grid:{color:GRID},ticks:{color:MUTED,font:{size:9}}},y:{grid:{color:GRID},ticks:{color:MUTED,callback:v=>v+' pts'}}}}
+  });
+}
+</script>
+</body>
+</html>
